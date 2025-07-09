@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Container, Typography, TextField, Button, Box, Alert } from '@mui/material';
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Alert,
+  CircularProgress,
+} from '@mui/material';
 import { signup } from '../store/authSlice';
 
 const SignupPage = () => {
@@ -15,11 +23,12 @@ const SignupPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signup({ full_name: fullName, email, password })).then((result) => {
-      if (result.meta.requestStatus === 'fulfilled') {
-        navigate('/login');
-      }
-    });
+    dispatch(signup({ full_name: fullName, email, password }))
+      .then((result) => {
+        if (result.meta.requestStatus === 'fulfilled') {
+          navigate('/login');
+        }
+      });
   };
 
   return (
@@ -28,7 +37,13 @@ const SignupPage = () => {
         <Typography component="h1" variant="h5">
           Sign Up
         </Typography>
-        {status === 'failed' && <Alert severity="error">{error.detail}</Alert>}
+
+        {status === 'failed' && (
+          <Alert severity="error" sx={{ mt: 2, width: '100%' }}>
+            {error?.detail || error?.message || 'Signup failed. Please try again.'}
+          </Alert>
+        )}
+
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
@@ -65,13 +80,15 @@ const SignupPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={status === 'loading'}
           >
-            Sign Up
+            {status === 'loading' ? <CircularProgress size={24} color="inherit" /> : 'Sign Up'}
           </Button>
         </Box>
       </Box>

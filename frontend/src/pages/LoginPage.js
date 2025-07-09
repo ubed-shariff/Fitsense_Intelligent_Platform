@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Container, Typography, TextField, Button, Box, Alert } from '@mui/material';
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Alert,
+  CircularProgress,
+} from '@mui/material';
 import { login } from '../store/authSlice';
 
 const LoginPage = () => {
@@ -14,6 +22,10 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Optional: Basic form validation
+    if (!email || !password) return;
+
     dispatch(login({ username: email, password })).then((result) => {
       if (result.meta.requestStatus === 'fulfilled') {
         navigate('/');
@@ -23,12 +35,19 @@ const LoginPage = () => {
 
   return (
     <Container maxWidth="xs">
-      <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Box sx={{ mt: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography component="h1" variant="h5">
           Login
         </Typography>
-        {status === 'failed' && <Alert severity="error">{error.detail}</Alert>}
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+
+        {/* Defensive check on error */}
+        {status === 'failed' && (
+          <Alert severity="error" sx={{ width: '100%', mt: 2 }}>
+            {error?.detail || error?.message || 'Login failed. Please try again.'}
+          </Alert>
+        )}
+
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <TextField
             margin="normal"
             required
@@ -41,6 +60,7 @@ const LoginPage = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+
           <TextField
             margin="normal"
             required
@@ -53,13 +73,15 @@ const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={status === 'loading'}
           >
-            Sign In
+            {status === 'loading' ? <CircularProgress size={24} color="inherit" /> : 'Sign In'}
           </Button>
         </Box>
       </Box>
