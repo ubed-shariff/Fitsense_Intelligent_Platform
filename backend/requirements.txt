@@ -4,3 +4,4 @@ python-jose[cryptography]
 passlib[bcrypt]
 pymongo
 python-multipart
+email-validator
