@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 const theme = createTheme({
   palette: {
@@ -15,8 +17,6 @@ const theme = createTheme({
   },
 });
 
-import { Provider } from 'react-redux';
-import { store } from './store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

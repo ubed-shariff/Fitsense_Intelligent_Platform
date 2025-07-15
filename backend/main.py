@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import auth, diet, workout, tracker, user
+from routers import auth, diet, workout, tracker, user
 
 app = FastAPI()
 
