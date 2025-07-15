@@ -1,5 +1,6 @@
 from pymongo.database import Database
-from . import schemas, security
+import schemas
+import security
 
 def get_user(db: Database, email: str):
     return db.users.find_one({"email": email})

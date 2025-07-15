@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
-from .. import schemas, crud
-from ..dependencies import get_current_user
+import schemas
+import crud
+from dependencies import get_current_user
 from pymongo.database import Database
-from ..database import get_database
+from database import get_database
 
 router = APIRouter()
 

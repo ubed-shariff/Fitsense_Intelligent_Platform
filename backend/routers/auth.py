@@ -2,8 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from pymongo.database import Database
 
-from ... import crud, schemas, security
-from ...database import get_database
+import crud
+import schemas
+import security
+from database import get_database
 
 router = APIRouter()
 

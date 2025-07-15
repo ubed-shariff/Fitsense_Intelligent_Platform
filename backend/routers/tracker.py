@@ -1,8 +1,8 @@
 import os
 import httpx
 from fastapi import APIRouter, Depends, HTTPException
-from .. import schemas
-from ..dependencies import get_current_user
+import schemas
+from dependencies import get_current_user
 
 router = APIRouter()
 
